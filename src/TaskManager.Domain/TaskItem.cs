@@ -28,9 +28,33 @@ public class TaskItem
 
     public DateTime CreatedAt { get; }
 
+    public DateTime? CompletedAt { get; private set; }
+
     public void Rename(string title)
     {
         Title = ValidateTitle(title);
+    }
+
+    public void Complete()
+    {
+        if (Status == TaskItemStatus.Completed)
+        {
+            throw new InvalidOperationException("This task has already been completed.");
+        }
+
+        Status = TaskItemStatus.Completed;
+        CompletedAt = DateTime.UtcNow;
+    }
+
+    public void Reopen()
+    {
+        if (Status == TaskItemStatus.Open)
+        {
+            throw new InvalidOperationException("This task is already open.");
+        }
+
+        Status = TaskItemStatus.Open;
+        CompletedAt = null;
     }
 
     private static string ValidateTitle(string title)

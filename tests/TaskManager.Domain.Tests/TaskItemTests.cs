@@ -111,4 +111,60 @@ public class TaskItemTests
         Assert.Throws<ArgumentException>(() => task.Rename(title));
         Assert.Equal("Write unit tests", task.Title);
     }
+
+    [Fact]
+    public void NewTask_HasNoCompletedTimestamp()
+    {
+        var task = new TaskItem("Write unit tests");
+
+        Assert.Null(task.CompletedAt);
+    }
+
+    [Fact]
+    public void Complete_MarksTaskCompletedAndRecordsWhen()
+    {
+        var task = new TaskItem("Write unit tests");
+        var before = DateTime.UtcNow;
+
+        task.Complete();
+
+        Assert.Equal(TaskItemStatus.Completed, task.Status);
+        Assert.NotNull(task.CompletedAt);
+        Assert.InRange(task.CompletedAt.Value, before, DateTime.UtcNow);
+    }
+
+    [Fact]
+    public void Complete_RejectsTaskThatIsAlreadyCompleted()
+    {
+        var task = new TaskItem("Write unit tests");
+        task.Complete();
+        var completedAt = task.CompletedAt;
+
+        var exception = Assert.Throws<InvalidOperationException>(() => task.Complete());
+
+        Assert.Equal("This task has already been completed.", exception.Message);
+        Assert.Equal(completedAt, task.CompletedAt);
+    }
+
+    [Fact]
+    public void Reopen_MarksTaskOpenAndClearsCompletedTimestamp()
+    {
+        var task = new TaskItem("Write unit tests");
+        task.Complete();
+
+        task.Reopen();
+
+        Assert.Equal(TaskItemStatus.Open, task.Status);
+        Assert.Null(task.CompletedAt);
+    }
+
+    [Fact]
+    public void Reopen_RejectsTaskThatIsAlreadyOpen()
+    {
+        var task = new TaskItem("Write unit tests");
+
+        var exception = Assert.Throws<InvalidOperationException>(() => task.Reopen());
+
+        Assert.Equal("This task is already open.", exception.Message);
+    }
 }
