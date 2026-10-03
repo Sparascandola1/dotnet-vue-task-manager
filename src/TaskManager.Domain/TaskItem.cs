@@ -28,6 +28,11 @@ public class TaskItem
 
     public DateTime CreatedAt { get; }
 
+    public void Rename(string title)
+    {
+        Title = ValidateTitle(title);
+    }
+
     private static string ValidateTitle(string title)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(title);

@@ -69,4 +69,46 @@ public class TaskItemTests
 
         Assert.Throws<ArgumentOutOfRangeException>(() => new TaskItem("Write unit tests", undefined));
     }
+
+    [Fact]
+    public void Rename_ChangesTitle()
+    {
+        var task = new TaskItem("Write unit tests");
+
+        task.Rename("Write more unit tests");
+
+        Assert.Equal("Write more unit tests", task.Title);
+    }
+
+    [Fact]
+    public void Rename_TrimsTitle()
+    {
+        var task = new TaskItem("Write unit tests");
+
+        task.Rename("  Write more unit tests  ");
+
+        Assert.Equal("Write more unit tests", task.Title);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Rename_RejectsBlankTitleAndKeepsOldTitle(string? title)
+    {
+        var task = new TaskItem("Write unit tests");
+
+        Assert.ThrowsAny<ArgumentException>(() => task.Rename(title!));
+        Assert.Equal("Write unit tests", task.Title);
+    }
+
+    [Fact]
+    public void Rename_RejectsTitleLongerThanMaximum()
+    {
+        var task = new TaskItem("Write unit tests");
+        var title = new string('a', TaskItem.MaxTitleLength + 1);
+
+        Assert.Throws<ArgumentException>(() => task.Rename(title));
+        Assert.Equal("Write unit tests", task.Title);
+    }
 }
