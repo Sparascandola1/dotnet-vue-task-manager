@@ -1,4 +1,4 @@
-namespace TaskManager.Domain;
+namespace TaskManager.Domain.Recurrence;
 
 public abstract class RecurrenceRule
 {

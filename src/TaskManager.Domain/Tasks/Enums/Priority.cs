@@ -1,4 +1,4 @@
-namespace TaskManager.Domain;
+namespace TaskManager.Domain.Tasks.Enums;
 
 public enum Priority
 {

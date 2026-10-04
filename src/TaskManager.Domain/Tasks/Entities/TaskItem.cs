@@ -1,4 +1,7 @@
-namespace TaskManager.Domain;
+using TaskManager.Domain.Recurrence;
+using TaskManager.Domain.Tasks.Enums;
+
+namespace TaskManager.Domain.Tasks.Entities;
 
 public class TaskItem
 {

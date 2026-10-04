@@ -1,4 +1,8 @@
-namespace TaskManager.Domain.Tests;
+using TaskManager.Domain.Recurrence;
+using TaskManager.Domain.Tasks.Entities;
+using TaskManager.Domain.Tasks.Enums;
+
+namespace TaskManager.Domain.Tests.Tasks;
 
 public class TaskItemRecurrenceTests
 {
