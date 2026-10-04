@@ -1,4 +1,4 @@
-namespace TaskManager.Domain;
+namespace TaskManager.Domain.Recurrence;
 
 public sealed class MonthlyRecurrence : RecurrenceRule
 {

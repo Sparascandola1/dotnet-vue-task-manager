@@ -1,4 +1,6 @@
-namespace TaskManager.Domain.Tests;
+using TaskManager.Domain.Recurrence;
+
+namespace TaskManager.Domain.Tests.Recurrence;
 
 public class MonthlyRecurrenceTests
 {
