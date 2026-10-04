@@ -30,6 +30,10 @@ public class TaskItem
 
     public DateTime? CompletedAt { get; private set; }
 
+    public DateOnly? DueDate { get; private set; }
+
+    public RecurrenceRule? Recurrence { get; private set; }
+
     public void Rename(string title)
     {
         Title = ValidateTitle(title);
@@ -55,6 +59,40 @@ public class TaskItem
 
         Status = TaskItemStatus.Open;
         CompletedAt = null;
+    }
+
+    public void SetDueDate(DateOnly? dueDate)
+    {
+        if (dueDate is null && Recurrence is not null)
+        {
+            throw new InvalidOperationException("A recurring task must have a due date.");
+        }
+
+        DueDate = dueDate;
+    }
+
+    public void SetRecurrence(RecurrenceRule? recurrence)
+    {
+        if (recurrence is not null && DueDate is null)
+        {
+            throw new InvalidOperationException("A task needs a due date before it can recur.");
+        }
+
+        Recurrence = recurrence;
+    }
+
+    public TaskItem CreateNextOccurrence()
+    {
+        if (Recurrence is null || DueDate is null)
+        {
+            throw new InvalidOperationException("This task does not recur.");
+        }
+
+        var next = new TaskItem(Title, Priority);
+        next.DueDate = Recurrence.NextOccurrence(DueDate.Value);
+        next.Recurrence = Recurrence;
+
+        return next;
     }
 
     private static string ValidateTitle(string title)
