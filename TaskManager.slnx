@@ -9,5 +9,6 @@
     <Project Path="tests/TaskManager.Api.Tests/TaskManager.Api.Tests.csproj" />
     <Project Path="tests/TaskManager.Application.Tests/TaskManager.Application.Tests.csproj" />
     <Project Path="tests/TaskManager.Domain.Tests/TaskManager.Domain.Tests.csproj" />
+    <Project Path="tests/TaskManager.Infrastructure.Tests/TaskManager.Infrastructure.Tests.csproj" />
   </Folder>
 </Solution>
